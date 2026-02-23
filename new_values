@@ -1,0 +1,24 @@
+import pandas as pd
+import numpy as np
+import time
+
+# Define start and end dates for 2025–2027
+start_timestamp = int(time.mktime(time.strptime("2025-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")))
+end_timestamp = int(time.mktime(time.strptime("2028-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")))
+
+# Generate timestamps every 5 minutes
+timestamps = list(range(start_timestamp, end_timestamp, 300))  # 300 seconds = 5 minutes
+
+# Generate random wind directions (0–360°)
+np.random.seed(42)  # for reproducibility
+wind_directions = np.random.uniform(0, 360, size=len(timestamps))
+
+# Create DataFrame
+future_df = pd.DataFrame({
+    'wind direction at 100m (deg)': wind_directions,
+    'Timestamp': timestamps
+})
+
+# Save to CSV
+future_df.to_csv("future_inputs.csv", index=False)
+print("✅ future_inputs.csv created successfully with", len(future_df), "rows.")
